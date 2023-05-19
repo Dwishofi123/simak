@@ -1,0 +1,111 @@
+<script src="jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+<? session_start();
+ 
+ if (empty($_SESSION[ps_nodaf])){echo "<script>window.location='login.php'; </script>";}else{include "koneksi.php";?>
+ 
+ 
+ <meta name="robots" content="noindex">
+ <meta name="googlebot" content="noindex">
+ <meta name="slurp" content="noindex">
+ <meta name="msnbot" content="noindex">
+ 
+<div class="portlet-grid panel-primary"> 
+    		 <div class="panel-heading">
+    		      <h3 class="panel-title mdl-shadow--2dp">Persiapan Ujian Online</h3>
+    		  </div> 
+<div class="panel-body">
+<?php
+/*$keterangan="Saat ini anda dapat mengikuti ujian online ketiga. Untuk memulai ujian online <a href='index.php?page=ujianonline&periode=1'>klik disini</a>. Gunakan pasword diatas apabila anda diminta untuk memasukkan password login pada saat login ujian online.";
+echo "$keterangan<br><Br>";
+echo "Saat ini anda dapat mengikuti ujian online ketiga. Untuk memulai ujian online <a href='index.php?page=ujianonline&periode=2'>klik disini</a>. Gunakan pasword diatas apabila anda diminta untuk memasukkan password login pada saat login ujian online.";
+*/
+$sq1 = mysql_query("select sum(by_nom) jum from bayar_detail where by_nodaf = '".$_SESSION[ps_nodaf]."' and by_status='verified'");
+	$arai1 = mysql_fetch_array($sq1);
+	////select pasword tahap 1
+	$password="-";
+	$jumbiaya=0;
+	
+	
+	for ($i = 1; $i <= 2; $i++)
+	{
+		$sq = mysql_query("select nominal from biaya_pendidikan where pembayaran_ke=$i and jurusan='$_SESSION[ps_prodi]'");
+		$t = mysql_fetch_array($sq);
+		$jumbiaya=$jumbiaya+$t['nominal'];
+	}
+	
+	
+	if ($arai1['jum'] < $jumbiaya)
+	{
+		$keterangan= "<font color=red>Mohon maaf, saat ini anda belum dapat mengikuti ujian online PERTAMA karna alasan biaya pendidikan yang belum terselesaikan. Untuk melihat history pembayaran anda silakan buka <a href=index.php?page=pembayaran>history pembayaran disini</a>.</font>";} 
+	else 
+	{  
+		$keterangan="SELAMAT UJIAN...<br>Saat ini anda dapat mengikuti ujian online pertama. Untuk memulai ujian online <a href='index.php?page=ujianonline&periode=1'>klik disini</a>. Gunakan pasword diatas apabila anda diminta untuk memasukkan password ujian pada saat login ujian online.";
+	
+	$sqpas = mysql_query("select * from profil_siswa where ps_nodaf = '$_SESSION[ps_nodaf]'");
+	$araipas = mysql_fetch_array($sqpas);
+	$password=$araipas['ps_pwduji1'];
+	if($password == "")
+	{  
+		echo "Mohon maaf, terjadi kesalahan sistem!"; $keterangan="";} } ?>
+	<h3 style="color:orange;"> PASSWORD UJIAN PERTAMA : <strong><font color=green><?php 	echo $password;?></font></strong> </h3>
+	<? echo $keterangan."<br><br><br>";
+	
+	
+	
+	
+	////select pasword tahap 2
+	$password="-";
+	$jumbiaya=0;
+	
+	
+	for ($i = 1; $i <= 3; $i++) {
+	$sq = mysql_query("select nominal from biaya_pendidikan where pembayaran_ke=$i and jurusan='$_SESSION[ps_prodi]'");
+	$t = mysql_fetch_array($sq);
+	$jumbiaya=$jumbiaya+$t['nominal'];
+	}
+	
+	
+	if ($arai1['jum'] < $jumbiaya){$keterangan= "<font color=red>Mohon maaf, saat ini anda belum dapat mengikuti ujian online KEDUA karna alasan biaya pendidikan yang belum terselesaikan. Untuk melihat history pembayaran anda silakan buka <a href=index.php?page=pembayaran>history pembayaran disini</a>.</font>";} 
+	else {  $keterangan="SELAMAT UJIAN...<br>Saat ini anda dapat mengikuti ujian online kedua. Untuk memulai ujian online <a href='index.php?page=ujianonline&periode=2'>klik disini</a>. Gunakan pasword diatas apabila anda diminta untuk memasukkan password ujian pada saat login ujian online.";
+	
+	$sqpas = mysql_query("select * from profil_siswa where ps_nodaf = '$_SESSION[ps_nodaf]'");
+	$araipas = mysql_fetch_array($sqpas);
+	$password=$araipas['ps_pwduji2'];
+	if($password == ""){  echo "Mohon maaf, terjadi kesalahan sistem!"; $keterangan="";} } ?>
+	<h3 style="color:orange;"> PASSWORD UJIAN KEDUA : <strong><font color=green><?php 	echo $password;?></font></strong> </h3>
+	<? echo $keterangan."<br><br><br>";
+	
+	
+	
+	
+	
+	
+	////select pasword tahap 3
+	$password="-";
+	$jumbiaya=0;
+	
+	
+	for ($i = 1; $i <= 4; $i++) {
+	$sq = mysql_query("select nominal from biaya_pendidikan where pembayaran_ke=$i and jurusan='$_SESSION[ps_prodi]'");
+	$t = mysql_fetch_array($sq);
+	$jumbiaya=$jumbiaya+$t['nominal'];
+	}
+	
+	
+	if ($arai1['jum'] < $jumbiaya){$keterangan= "<font color=red>Mohon maaf, saat ini anda belum dapat mengikuti ujian online KETIGA karna alasan biaya pendidikan yang belum terselesaikan. Untuk melihat history pembayaran anda silakan buka <a href=index.php?page=pembayaran>history pembayaran disini</a>.</font>";} 
+	else {  $keterangan="SELAMAT UJIAN...<br>Saat ini anda dapat mengikuti ujian online ketiga. Untuk memulai ujian online <a href='index.php?page=ujianonline&periode=3'>klik disini</a>. Gunakan pasword diatas apabila anda diminta untuk memasukkan password ujian pada saat login ujian online.";
+	
+	$sqpas = mysql_query("select * from profil_siswa where ps_nodaf = '$_SESSION[ps_nodaf]'");
+	$araipas = mysql_fetch_array($sqpas);
+	$password=$araipas['ps_pwduji3'];
+	if($password == ""){  echo "Mohon maaf, terjadi kesalahan sistem!"; $keterangan="";} } ?>
+	<h3 style="color:orange;"> PASSWORD UJIAN KETIGA : <strong><font color=green><?php 	echo $password;?></font></strong> </h3>
+	<? echo $keterangan."<br><br><br>";
+	
+	?>
+	
+
+    		
+    	</div>
+		</div><?}?>
+		

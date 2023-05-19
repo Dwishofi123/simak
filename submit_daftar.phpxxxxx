@@ -1,0 +1,135 @@
+<? session_start();?>
+
+<?    include "system/system/konek.php";
+$tanggal=date("d/m/Y");
+$tgls=date("Y-m-d H:i:s");
+$namasma=$_POST[nama_sma];
+
+if ($_GET[action]=="tambah"){
+
+$pass=""; $query = mysql_query("select id,nama,asal_sekolah,sumber_informasi,Tgl_pendaftaran from siswa where nama='$_POST[nama]' and asal_sekolah='$_POST[nama_sma]'");	
+while($b=mysql_fetch_row($query)){$a=$a+1; $pass=$b[0]; $sumber=$b[3]; $tggl=$b[4];}
+
+if ($pass<>""){ echo "Mohon maaf anda sudah pernah melakukan pendaftaran online pada tanggal ".$tggl.".Terima kasih.<br><br><br><br><br><br><br>Sumber link pendaftaran anda sebelumnya :".$sumber."";}else{
+
+
+// kroscek apakah sekolah sudah dipresentasi apa belum
+$query = mysql_query("select marketing_pengunci from database_sekolah where nama_sma='$namasma'");	
+while($b=mysql_fetch_row($query)){$marketing=$b[0]; }
+
+if ($marketing==""){
+$query = mysql_query("select pemilik from domain where domain='$_GET[info_from]'");	
+while($b=mysql_fetch_row($query)){$marketing=$b[0]; }}
+
+
+//cari nomor hape marketing untuk disertakan di folow up sms
+
+$querykontakmarketing = mysql_query("select nama,hp,email from pegawai where id='$marketing'");	
+while($cb=mysql_fetch_row($querykontakmarketing)){$kontakmarketing=$cb[0]." ".$cb[1]."/BBM ".$cb[2]; $hpmarketing2=$cb[1];}
+
+
+$nama_clear= str_replace("'", " ", $_POST[nama]);
+$nama_clear=stripslashes($nama_clear);
+
+$nama_sma_clear= str_replace("'", " ", $nama_sma);
+$nama_sma_clear=stripslashes($nama_sma_clear);
+
+$alamat_sma_clear= str_replace("'", " ", $_POST[alamat_sma]);
+$alamat_sma_clear=stripslashes($alamat_sma_clear);
+
+$alamat_clear= str_replace("'", " ", $_POST[alamat]);
+$alamat_clear=stripslashes($alamat_clear);
+
+$alamat_ortu_clear= str_replace("'", " ", $_POST[alamat_ortu]);
+$alamat_ortu_clear=stripslashes($alamat_ortu_clear);
+
+$nama_ortu_clear= str_replace("'", " ", $_POST[nama_ortu]);
+$nama_ortu_clear=stripslashes($nama_ortu_clear);
+
+$nama_panggilan_clear= str_replace("'", " ", $_POST[nama_panggilan]);
+$nama_panggilan_clear=stripslashes($nama_panggilan_clear);
+
+
+	
+mysql_query("insert into siswa(nama,status_seleksi,jurusan,tempat_kuliah,validasi_pendaftaran,status_daftarulang,Alamat,No_Telp,hp_ortu,Asal_Sekolah,nama_pendidikan_terakhir,Marketing,Tgl_pendaftaran,nama_panggilan,agama,suku,jenis_kelamin,tempat_lahir,hoby,golongan_darah,ukuran_sepatu,ukuran_baju,tinggi_badan,sumber_informasi,berat_badan,motivasi_masuk_pspp,pendidikan_terakhir,alamat_pendidikan_terakhir,pendidikan_formal,kursus,email,bbm,usia,jilbab,nama_ortu,pekerjaan_ortu,alamat_ortu,tanggal_lahir,keterangansumberinfo)values('$nama_clear','Belum Diseleksi','$_POST[jurusan] ($_POST[bulan_pendidikan] $_POST[tahun_pendidikan])','$_POST[kampus]','Belum Divalidasi','Belum','$alamat_clear','$_POST[telp]','$_POST[hp_ortu]','$nama_sma_clear','$nama_sma_clear','$marketing','$tanggal','$nama_panggilan_clear','$_POST[agama]','$_POST[suku]','$_POST[jenis_kelamin]','$_POST[tempat_lahir]','$_POST[hobi]','$_POST[golongan_darah]','$_POST[ukuran_sepatu]','$_POST[ukuran_baju]','$_POST[tinggi_badan]','$_GET[info_from]','$_POST[berat_badan]','$_POST[motivasi]','$nama_sma_clear','$alamat_sma_clear','$_POST[pendidikan_formal]','$_POST[kursus]','$_POST[email]','$_POST[bbm]','$_POST[usia]','$_POST[jilbab]','$_POST[nama_ortu]','$_POST[pekerjaan_ortu]','$alamat_ortu_clear','$_POST[tanggal_lahir]','$_POST[uraianpromosi]')");
+
+
+
+$query = mysql_query("select max(id) as id from siswa");	
+while($b=mysql_fetch_row($query)){$idpendaftaran=$b[0]; }
+
+$query = mysql_query("select reg_format from config");	
+while($b=mysql_fetch_row($query)){$reg_format=$b[0]."/".$idpendaftaran; }
+
+mysql_query("update siswa set No_Reg='$reg_format' where id='$idpendaftaran'");
+$username=$nama_clear;
+
+//kirim sms ke siswa
+//mysql_query("insert into sms_traffic(tujuan,pesan,jenis_sms,unit)values('$_POST[telp]','INFO PSPP Penerbangan. Terima kasih telah mendaftar di PSPP Penerbangan. Silakan hubungi Kak $kontakmarketing untuk melanjutkan prosses pendaftaran. Terima kasih','SMS Pendaftaran','Online')");
+
+
+//kirimm sms ke orang tua
+//mysql_query("insert into sms_traffic(tujuan,pesan,jenis_sms,unit)values('$_POST[hp_ortu]','INFO PSPP Penerbangan. Hari ini $_POST[nama] telah mengisi biodata pendaftaran di PSPP Penerbangan melalui http://pspp-integrated.com. Terima kasih','SMS Pendaftaran','Online')");
+		
+$sms="(".$tanggal.") ".$_POST[nama]."[".$_POST[telp]."] dari ".$_POST[nama_sma]." mengisi formulir pendaftaran PSPP melalui ".$_GET[info_from].". Terima kasih.";
+
+//kirim sms pemberitahuan ke marketing bahwa ada siswa yang baru mendaftar di web. 
+ mysql_query("insert into sms_traffic(tujuan,pesan,jenis_sms,unit)values('$hpmarketing2','$sms','SMS Info Pendaftaran Siswa ke Marketing','Online')");
+
+
+//$query = mysql_query("select hp from pegawai where status_pegawai='Aktif' and jabatan='Marketing'");	
+//while($b=mysql_fetch_row($query)){ mysql_query("insert into sms_traffic(tujuan,pesan,jenis_sms,unit)values('$b[0]','$sms','SMS Pendaftaran','Online')");}
+
+//$query = mysql_query("select tujuan from nomor_khusus");	
+//while($b=mysql_fetch_row($query)){ mysql_query("insert into sms_traffic(tujuan,pesan,jenis_sms,unit)values('$b[0]','$sms','SMS Pendaftaran','Online')");}
+
+
+mysql_query("insert into tbl_log(datetime,uraian)values('$tgls','$_POST[nama] dari $_POST[nama_sma] melakukan pendaftaran di website pspp-integrated.com melalui $_GET[info_from]')");
+//mysql_query("insert into recent_update(datetime,keterangan,tujuan)values('$tgls','$_POST[nama] dari $_POST[nama_sma] melakukan pendaftaran di website pspp-integrated.com melalui $_GET[info_from]','marketing')");
+//SIMPAN URAIAN LOG INPUT DATA
+$uraianlog="$nama_clear mengisi formulir pendaftaran sebagai berikut : insert into siswa(nama,status_seleksi,jurusan,tempat_kuliah,validasi_pendaftaran,status_daftarulang,Alamat,No_Telp,hp_ortu,Asal_Sekolah,nama_pendidikan_terakhir,Marketing,Tgl_pendaftaran,nama_panggilan,agama,suku,jenis_kelamin,tempat_lahir,hoby,golongan_darah,ukuran_sepatu,ukuran_baju,tinggi_badan,sumber_informasi,berat_badan,motivasi_masuk_pspp,pendidikan_terakhir,alamat_pendidikan_terakhir,pendidikan_formal,kursus,email,bbm,usia,jilbab,nama_ortu,pekerjaan_ortu,alamat_ortu,tanggal_lahir,keterangansumberinfo)values($nama_clear,Belum Diseleksi,$_POST[jurusan] ($_POST[bulan_pendidikan] $_POST[tahun_pendidikan]),$_POST[kampus],Belum Divalidasi,Belum,$alamat_clear,$_POST[telp],$_POST[hp_ortu],$nama_sma_clear,$nama_sma_clear,$marketing,$tanggal,$nama_panggilan_clear,$_POST[agama],$_POST[suku],$_POST[jenis_kelamin],$_POST[tempat_lahir],$_POST[hobi],$_POST[golongan_darah],$_POST[ukuran_sepatu],$_POST[ukuran_baju],$_POST[tinggi_badan],$_GET[info_from],$_POST[berat_badan],$_POST[motivasi],$nama_sma_clear,$alamat_sma_clear,$_POST[pendidikan_formal],$_POST[kursus],$_POST[email],$_POST[bbm],$_POST[usia],$_POST[jilbab],$_POST[nama_ortu],$_POST[pekerjaan_ortu],$alamat_ortu_clear,$_POST[tanggal_lahir],$_POST[uraianpromosi])";
+mysql_query("insert into tbl_log(datetime,uraian)values('$tgls','$uraianlog')");
+
+?>
+
+
+<script language="javascript" type="text/javascript">
+window.location.href="login.php?username=<? echo $username;?>&pass=<? echo $idpendaftaran;?>";
+</script>
+
+<?}} else {
+
+
+$nama_clear= str_replace("'", " ", $_POST[nama]);
+$nama_clear=stripslashes($nama_clear);
+
+$nama_sma_clear= $_POST[nama_sma];
+
+$alamat_sma_clear= str_replace("'", " ", $_POST[alamat_sma]);
+$alamat_sma_clear=stripslashes($alamat_sma_clear);
+
+$alamat_clear= str_replace("'", " ", $_POST[alamat]);
+$alamat_clear=stripslashes($alamat_clear);
+
+$alamat_ortu_clear= str_replace("'", " ", $_POST[alamat_ortu]);
+$alamat_ortu_clear=stripslashes($alamat_ortu_clear);
+
+$nama_ortu_clear= str_replace("'", " ", $_POST[nama_ortu]);
+$nama_ortu_clear=stripslashes($nama_ortu_clear);
+
+$nama_panggilan_clear= str_replace("'", " ", $_POST[nama_panggilan]);
+$nama_panggilan_clear=stripslashes($nama_panggilan_clear);
+
+
+mysql_query("update siswa set nama='$nama_clear',jurusan='$_POST[jurusan]',tempat_kuliah='$_POST[kampus]',Alamat='$alamat_clear',No_Telp='$_POST[telp]',hp_ortu='$_POST[hp_ortu]',Asal_Sekolah='$nama_sma_clear',nama_pendidikan_terakhir='$nama_sma_clear',nama_panggilan='$nama_panggilan_clear',agama='$_POST[agama]',suku='$_POST[suku]',jenis_kelamin='$_POST[jenis_kelamin]',ttl='$_POST[ttl]',hoby='$_POST[hobi]',golongan_darah='$_POST[golongan_darah]',ukuran_sepatu='$_POST[ukuran_sepatu]',ukuran_baju='$_POST[ukuran_baju]',tinggi_badan='$_POST[tinggi_badan]',berat_badan='$_POST[berat_badan]',motivasi_masuk_pspp='$_POST[motivasi]',pendidikan_terakhir='$nama_sma_clear',alamat_pendidikan_terakhir='$alamat_sma_clear',pendidikan_formal='$_POST[pendidikan_formal]',kursus='$_POST[kursus]',email='$_POST[email]',bbm='$_POST[bbm]',usia='$_POST[usia]',jilbab='$_POST[jilbab]' where id='$_GET[id]'");
+
+
+//SIMPAN URAIAN LOG INPUT DATA
+$uraianlog="$nama_clear mengubah biodata pribadi sbb berikut : update siswa set nama=$nama_clear,jurusan=$_POST[jurusan],tempat_kuliah=$_POST[kampus],Alamat=$alamat_clear,No_Telp=$_POST[telp],hp_ortu=$_POST[hp_ortu],Asal_Sekolah=$nama_sma_clear,nama_pendidikan_terakhir=$nama_sma_clear,nama_panggilan=$nama_panggilan_clear,agama=$_POST[agama],suku=$_POST[suku],jenis_kelamin=$_POST[jenis_kelamin],ttl=$_POST[ttl],hoby=$_POST[hobi],golongan_darah=$_POST[golongan_darah],ukuran_sepatu=$_POST[ukuran_sepatu],ukuran_baju=$_POST[ukuran_baju],tinggi_badan=$_POST[tinggi_badan],berat_badan=$_POST[berat_badan],motivasi_masuk_pspp=$_POST[motivasi],pendidikan_terakhir=$nama_sma_clear,alamat_pendidikan_terakhir=$alamat_sma_clear,pendidikan_formal=$_POST[pendidikan_formal],kursus=$_POST[kursus],email=$_POST[email],bbm=$_POST[bbm],usia=$_POST[usia],jilbab=$_POST[jilbab] where id=$_GET[id]";
+mysql_query("insert into tbl_log(datetime,uraian)values('$tgls','$uraianlog')");
+
+?>
+<script language="javascript" type="text/javascript">
+window.location.href="index.php?&r=biodata&id=<? echo $_GET[id];?>&read=biodata-pendaftaran-online.html";
+</script>
+<? }?>

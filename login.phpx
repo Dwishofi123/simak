@@ -1,0 +1,35 @@
+<? 
+session_start();
+include "system/system/konek.php";
+	$query = mysql_query("SELECT * FROM siswa where nama_panggilan='$_GET[username]' and ID='$_GET[pass]' "); 
+	$a=0;
+
+	while($b=mysql_fetch_row($query)){
+	$a=$a+1;
+	$_SESSION[idpendaftaran]=$b[0];
+	$_SESSION[nama]=$b[2];
+	$_SESSION[asal_sekolah]=$b[6];
+	$_SESSION[hasil_ujian]=$b[32]." <br><br>".$b[33];
+	$_SESSION[status_login]="aktif";
+	$_SESSION[marketing]=$b[7];
+	}
+
+
+
+if ($a>0){
+$_SESSION[status_login]="aktif";
+
+?>
+<script language="javascript" type="text/javascript">
+window.location.href="index.php";
+</script>
+
+<?}else
+{
+$_SESSION[status_login]="gak aktif";
+echo "<font color='red'>Sorry, Not Match!</font>";
+}
+
+
+
+?>

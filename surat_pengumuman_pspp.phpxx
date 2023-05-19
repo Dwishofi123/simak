@@ -1,0 +1,18 @@
+<? session_start();
+
+include "system/system/konek.php";
+$query = mysql_query("SELECT nama,asal_sekolah FROM siswa where id='$_GET[id]' ");
+	while($b=mysql_fetch_row($query)){ $nama=$b[0]; $asal_sma=$b[1];}?>
+<center>--------------------------------------------------------------------------------------------------<br></center>
+
+ <tr>
+ <td class="welcome" valign="top" align="left">
+
+<center><h2>Surat Hasil Tes Seleksi PSPP Penerbangan</h2>Nama : <?echo $nama;?><br> Asal Sekolah : <? echo $asal_sma;?><br><br></center>
+<center>Untuk melihat surat hasil tes seleksi masuk PSPP Penerbangan silakan <a href="uploads/surat/surat-<? echo $_GET[id];?>.pdf" target="_blank">klik disini.</a><br><br>
+Jika dari klik link tersebut anda bisa menemukan surat keterangan hasil tes seleksi, maka surat anda dipastikan sudah keluar. Untuk status diterima atau tidaknya silakan baca pada surat tersebut, NAMUN jika anda tidak menemukan surat anda (NOT FOUND), itu artinya surat anda belum diuplaod dan masih dalam status menunggu. Dan apabila hingga 1 bulan surat anda juga belum bisa diakses, silakan hubungi kampus PSPP Penerbangan melalui hotline : 0274-486287 / 0274-8537227. Terima kasih</center>
+
+
+<br><br><br>
+<center>--------------------------------------------------------------------------------------------------<br></center>
+</td></tr>

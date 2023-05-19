@@ -1,0 +1,348 @@
+/* CSS Document */
+/* general */
+body{
+	padding:31px 0 0 0;
+	margin:0;
+	font:normal 13px Arial, Helvetica, sans-serif;
+}
+p, td, form, input, li, h1, h2, h3, h4, select, label{
+	padding:0;
+	margin:0;
+}
+img{
+	padding:0;
+	margin:0;
+	line-height:0;
+	font-size:0;
+	border:none;
+	display:block;
+}
+a{
+	text-decoration:none;
+}
+ul{
+	padding:0;
+	margin:0;
+	list-style-type:none;
+}
+.spacer{
+	clear:both;
+	line-height:0; 
+	font-size:0;
+}
+/* general */
+/* header start */
+.header{
+	background:url(images/sekolah-pramugari-terbaik-puasa.jpg) no-repeat 0 0 #E7EBFF;
+	color:#627390;
+}
+.logo{
+	padding:12px 0 224px 19px;
+}
+.nav{
+	background-color:#507CC4;
+	color:#fff;
+}
+.nav ul{
+	width:460px;
+	float:left;
+}
+.nav ul li{
+	float:left;
+	background:url(images/nav_divider.gif) repeat-y right top;
+	padding:0 2px 0 0;
+}
+.nav ul li a{
+	font:bold 12px/30px Arial, Helvetica, sans-serif;
+	color:#fff;
+	background-color:#507CC4;
+	padding:0 18px;
+	display:block;
+}
+.nav ul li a:hover, .nav ul li a.active{
+	color:#fff;
+	background-color:#C53E05;
+}
+/* header end */
+/* body start */
+.body_main{
+	padding:30px 24px 37px 24px;
+}
+.welcome{
+	padding:0 0 29px 0;
+}
+.welcome h2{
+	font:normal 24px/26px Arial, Helvetica, sans-serif;
+	color:#3C64A6;
+	background-color:#E7EBFF;
+}
+.welcome p.wel_text{
+	font:normal 12px/15px Arial, Helvetica, sans-serif;
+	color:#627390;
+	background-color:#E7EBFF;
+	padding:0 0 12px 0;
+}
+.welcome p.wel_text span{
+	font:bold 12px/13px Arial, Helvetica, sans-serif;
+	color:#3D8806;
+	background-color:#E7EBFF;
+	padding:20px 0 14px 0;
+	display:block;	
+}
+.welcome p.more{
+	background:url(images/arrow.gif) no-repeat left center #E7EBFF;
+	padding:0 0 0 9px;
+	font:bold 12px/14px Arial, Helvetica, sans-serif;
+	color:#C53E05;
+}
+.welcome p.more a{
+	color:#C53E05;
+	background-color:#E7EBFF;
+}
+.welcome p.more a:hover{
+	color:#000;
+	background-color:#E7EBFF;
+}
+.clickhere{
+	background:url(images/informasi-pendaftaran-pspp.gif) no-repeat 0 0;
+	padding:30px 0 78px 14px;
+	font:bold 12px/13px Arial, Helvetica, sans-serif;
+}
+.clickhere a{
+	color:#FFFF08;
+	background-color:inherit;
+}
+.clickhere a:hover{
+	text-decoration:underline;
+}
+.tour{
+	padding:0 0 0 0;
+}
+.tour_text{
+	padding:12px 0 0 0;
+	font:normal 12px/15px Arial, Helvetica, sans-serif;
+	color:#627390;
+	background-color:#E7EBFF;
+	text-align:justify;
+}
+.tour_text a{
+	color:#BD3B05;
+	background-color:#E7EBFF;
+	font-weight:bold;
+}
+.tour_text a:hover{
+	text-decoration:underline;
+}
+/* body right start */
+.packeg_top{
+	background:url(images/packeg_topbg.gif) no-repeat 0 0 #fd9023;
+	padding:0 0 0 25px;
+	font:normal 24px/60px Arial, Helvetica, sans-serif;
+	color:#374010;
+}
+.packeg{
+	background:url(images/packeg_bodybg.gif) repeat-y 0 0;
+	padding:0 24px 20px 24px;
+}
+label.packeg_text{
+	font:bold 12px/20px Arial, Helvetica, sans-serif;
+	color:#426C07;
+	background-color:#B7D23E;
+	width:89px;
+}
+label.packeg_text_top{
+	font:bold 12px/20px Arial, Helvetica, sans-serif;
+	color:#426C07;
+	background-color:#B7D23E;
+}
+select{
+	width:130px;
+	font:normal 12px Arial, Helvetica, sans-serif;
+	color:#000;
+	background-color:#fff;
+}
+input.text_big{
+	font:normal 12px/19px Arial, Helvetica, sans-serif;
+	padding:2px 0 0 3px;
+	width:125px;
+	border:1px solid #7A941F;
+	background-color:#B0C541;
+	color:#426C07;
+}
+input.text_small{
+	font:normal 12px/19px Arial, Helvetica, sans-serif;
+	padding:2px 0 0 3px;
+	width:46px;
+	border:1px solid #7A941F;
+	background-color:#B0C541;
+	color:#426C07;
+}
+textarea{
+	width:214px;
+	font:normal 12px Arial, Helvetica, sans-serif;
+	padding:2px 0 0 3px;
+	border:1px solid #7A941F;
+	background-color:#B0C541;
+	color:#426C07;
+	height:78px;	
+}
+input.submit{
+	width:122px;
+	height:19px;
+}
+h2.news{
+	font:normal 24px/26px Arial, Helvetica, sans-serif;
+	color:#3C64A6;
+	background-color:#E7EBFF;
+}
+p.news_text{
+	font:bold 12px/15px Arial, Helvetica, sans-serif;
+	color:#3D8806;
+	background-color:#E7EBFF;
+	padding:6px 0 10px 0;
+}
+p.news_pictext{
+	font:normal 12px/15px Arial, Helvetica, sans-serif;
+	color:#627390;
+	background-color:#E7EBFF;
+	padding:0px 0 4px 0;
+}
+p.more{
+	background:url(images/arrow.gif) no-repeat left center #E7EBFF;
+	padding:0 0 0 9px;
+	font:bold 12px/14px Arial, Helvetica, sans-serif;
+	color:#C53E05;
+}
+p.more a{
+	color:#C53E05;
+	background-color:#E7EBFF;
+}
+p.more a:hover{
+	color:#000;
+	background-color:#E7EBFF;
+}
+/* body right end */
+/* body end */
+/* footer start */
+.footer{
+	background:url(images/footerbg.gif) repeat-x 0 0;
+	padding:28px 0;
+}
+.footer ul{
+	width:415px;
+}
+.footer ul li{
+	float:left;
+	font:bold 12px/13px Arial, Helvetica, sans-serif;
+	color:#fff;
+	background-color:inherit;
+	padding:0 7px;
+}
+.footer ul li a{
+	color:#fff;
+	background-color:inherit;
+}
+.footer ul li a:hover{
+	text-decoration:underline;
+}
+.footer p{
+	font:normal 12px/16px Arial, Helvetica, sans-serif;
+	color:#78AEF7;
+	background-color:inherit;
+	width:272px;
+	padding:10px 0 0 0;
+}
+.footer p a{
+	color:#fff;
+	background-color:inherit;
+}
+.footer p a:hover{
+	text-decoration:underline;
+}
+/* footer end */
+
+
+/* Elegant Aero */
+.form_pendaftaran {
+    margin-left:auto;
+    margin-right:auto;
+
+    max-width: 500px;
+    background: #D2E9FF;
+    padding: 20px 20px 20px 20px;
+    font: 12px Arial, Helvetica, sans-serif;
+    
+}
+.form_pendaftaran h1 {
+    font: 24px "Trebuchet MS", Arial, Helvetica, sans-serif;
+    padding: 10px 10px 10px 20px;
+    display: block;
+    background: #C0E1FF;
+    border-bottom: 1px solid #B8DDFF;
+    margin: -20px -20px 15px;
+}
+.form_pendaftaran h1>span {
+    display: block;
+    font-size: 11px;
+}
+
+.form_pendaftaran label>span {
+    float: left;
+    margin-top: 10px;
+    color: #5E5E5E;
+}
+.form_pendaftaran label {
+    display: block;
+    margin: 0px 0px 5px;
+}
+.form_pendaftaran label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 15px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.form_pendaftaran input[type="text"], .form_pendaftaran input[type="email"], .form_pendaftaran textarea, .form_pendaftaran select {
+    color: #888;
+    width: 70%;
+    padding: 0px 0px 0px 5px;
+    border: 2px solid #C5E2FF;
+    background: #FBFBFB;
+    outline: 0;
+    -webkit-box-shadow:inset 0px 1px 16px #ECF3F5;
+    box-shadow: inset 0px 1px 14px #ECF3F5;
+    font: 200 12px/25px Arial, Helvetica, sans-serif;
+    height: 30px;
+    line-height:15px;
+    margin: 2px 6px 16px 0px;
+}
+.form_pendaftaran textarea{
+    height:100px;
+    padding: 5px 0px 0px 5px;
+    width: 70%;
+}
+.form_pendaftaran select {
+    background: #fbfbfb url('down-arrow.png') no-repeat right;
+    background: #fbfbfb url('down-arrow.png') no-repeat right;
+   appearance:none;
+    -webkit-appearance:none;
+   -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    width: 70%;
+}
+.form_pendaftaran .button{
+    padding: 10px 30px 10px 30px;
+    background: #66C1E4;
+    border: none;
+    color: #FFF;
+    box-shadow: 1px 1px 1px #4C6E91;
+    -webkit-box-shadow: 1px 1px 1px #4C6E91;
+    -moz-box-shadow: 1px 1px 1px #4C6E91;
+    text-shadow: 1px 1px 1px #5079A3;
+   
+}
+.form_pendaftaran .button:hover{
+    background: #3EB1DD;
+}

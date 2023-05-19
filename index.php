@@ -1,0 +1,648 @@
+<? session_start();
+include "system/system/konek.php";?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><!--Copyright http://www.alixixi.com, All Rights Reserved.-->
+
+
+<link href='image/favicon.ico' rel='icon' type='image/x-icon'/>
+<title><? if ($_GET[id]<>""){ $query = mysql_query("select * from content where id='$_GET[id]'");	while($b=mysql_fetch_row($query)){ echo $b[1];}} else{ echo "Selamat Datang di Website Resmi PSPP Integrated - Info Pendaftaran Biaya & Syarat Masuk"; }?></title>
+<link href="image/style.css" rel="stylesheet" type="text/css">
+<script type=text/javascript src=system/js/plugins/jquery/jquery.min.js></script>
+</head>
+<body oncontextmenu="return false"  onselectstart="return false">
+
+
+<script type="text/javascript">
+
+/***DASAR MAU MALING YA??!! ***/
+
+function disableSelection(target){
+if (typeof target.onselectstart!="undefined") //For IE 
+    target.onselectstart=function(){return false}
+else if (typeof target.style.MozUserSelect!="undefined") //For Firefox
+    target.style.MozUserSelect="none"
+else //All other route (For Opera)
+    target.onmousedown=function(){return false}
+target.style.cursor = "default"
+}
+ </script>
+ <script type="text/javascript">
+   disableSelection(document.body)
+</script>
+
+
+
+<script type="text/javascript">
+ function CekLogin() {
+ 
+	var usernameV = document.getElementById('username');
+	username = usernameV.value;
+	
+	var passV = document.getElementById('pass');
+	pass = passV.value;
+	
+	document.getElementById("tables").style.display = "block";
+	
+		
+		$('#tables').html("<img src='image/loading.gif'/><font color=white> <br>Loading... Mohon tunggu..</font>");
+		jQuery.ajax({
+			url: "login.php?username="+username+"&pass="+pass,
+			type: "POST",
+			success:function(data){$('#tables').html(data);}
+		});
+		
+	}
+	
+function normal(){
+	document.getElementById("tables").style.display = "none";
+}
+</script>
+
+
+
+
+<?
+$_SESSION[bebas]="no";
+if ($_GET[from]==""){}else{
+$query = mysql_query("select * from domain where domain='$_GET[from]'");	while($b=mysql_fetch_row($query)){$pemilik=$b[2];   $ec = mysql_query("select nama from pegawai where id='$pemilik'");	while($c=mysql_fetch_row($ec)){ $_SESSION[pemilik_domain]=$c[0]; $_SESSION[info-from]=$_GET[from];}}
+if ($_SESSION[pemilik_domain]==""){}else{$_SESSION[bebas]="yes";}
+}
+?>
+
+
+<table width="886" align="center" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td class="header" valign="top" align="left"><table width="886" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td class="logo" valign="top" align="left"><table width="254" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left"><a href="http://dpsoft.taobao.com/"><img src="image/logo.png" alt="TREKKING TOURS" title="TREKKING TOURS" width="254" border="0" height="38"></a></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="886" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="619" align="left"><table width="619" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left" height="50">&nbsp;</td>
+ </tr>
+ <tr>
+ <td class="nav" valign="top" align="left">
+								<ul>
+								<li><a href="index.php" <? if ($_GET[id]==""){ echo "class='active'";} ?> title="Home">Home</a></li>
+								<li><a href="index.php?id=438&read=mengapa-memilih-kampus-pspp.html" <? if ($_GET[id]=="438"){ echo "class='active'";} ?> >Kenapa harus memilih kami?</a></li>
+								<li><a href="index.php?id=439&grup=berita" <? if ($_GET[grup]=="berita"){ echo "class='active'";} ?> >Berita</a></li>
+								
+								<li><a href="index.php?id=440" <? if ($_GET[id]=="440"){ echo "class='active'";} ?> >Fasilitas</a></li>
+								
+								</ul>								</td>
+ </tr>
+ <tr>
+ <td class="body_main" valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody>
+ 
+ <tr><td>
+ <? if ($_GET[from]<>""){ 
+ 
+ include "isi_biodata.php";} ?>
+ </td></tr>
+ 
+
+ <!-- KONTEN DISINI -->
+ <? if ($_GET[id]=="" and $_GET[r]==""){?>
+ <tr>
+ <td class="welcome" valign="top" align="left">
+										<h2>Selamat Datang di Website Resmi Kampus PSPP</h2>
+										<p class="wel_text"><span></span>
+								
+<? $query = mysql_query("select * from content where id='84'");	while($b=mysql_fetch_row($query)){ echo $b[2];}?>	
+		</p>
+																			
+</td>
+ </tr>
+ <? } 
+  elseif ($_GET[r]=="data-pendaftar"){ include "data_pendaftar.php";}
+  elseif ($_GET[r]=="biodata"){ include "isi_biodata.php";}
+  elseif ($_GET[r]=="tes-online"){ include "soal.php";}
+  elseif ($_GET[r]=="surat_pengumuman"){ include "surat_pengumuman_pspp.php";}
+   elseif ($_GET[r]=="kritiksaran"){ include "kritiksaran.php";}
+   elseif ($_GET[r]=="pengaduan"){ include "pengaduan.php";}
+   elseif ($_GET[r]=="informasi_siswa_baru"){ include "informasi_siswa_baru.php";}
+   
+   elseif ($_GET[r]=="suksespengaduan"){echo "Terima kasih.<br>	Pengaduan yang telah anda kirim akan segera kami prosses.<br><br>	Fast respons:	<br>	<strong>HOTLINE PENGADUAN : 0274-2802084<br><br></strong><br><br><br>";}
+ else {
+ $query = mysql_query("select * from content where id='$_GET[id]'");	while($b=mysql_fetch_row($query)){
+ ?>
+ 
+ 
+ <tr>
+ <td class="welcome" valign="top" align="left">
+										<h2><? echo $b[1];?></h2>
+										<p class="wel_text"><? echo $b[2];?> <br><br>
+										
+<? $query = mysql_query("SELECT nama,hp,Email from pegawai where id='$_SESSION[marketing]'");
+	while($b=mysql_fetch_row($query)){ $namam=$b[0]; $hpm=$b[1]; $emailm=$b[2]; echo "<font color='red'><strong>Info lengkap pendaftaran hubungi : Kak ".$namam." ".$hpm." / ".$emailm."</strong></font>";} ?>		<br><br><br>								
+									<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+
+codebase="http://download.macromedia.com/pub/shockwave/
+cabs/flash/swflash.cab#version=6,0,40,0" 
+ 
+
+ id="mymoviename"> 
+
+<param name="movie"  
+
+value="image/banner.swf" /> 
+ 
+<param name="quality" value="high" /> 
+
+<param name="bgcolor" value="#E7EBFF" /> 
+
+<embed src="image/banner.swf" quality="high" bgcolor="#E7EBFF"
+
+width="100%" 
+
+name="mymoviename" align="" type="application/x-shockwave-flash" 
+
+pluginspage="http://www.macromedia.com/go/getflashplayer"> 
+
+
+</embed> 
+
+</p>
+										<p class="more"><? $query = mysql_query("select * from content where grup='berita' and pub='true'  ORDER BY RAND() limit 1");	while($b=mysql_fetch_row($query)){?><a href="index.php?id=<? echo $b[0];?>&grup=berita&read=<? echo $b[1];?>"> <? echo $b[1];?> </a> << Berita Sebelumnya  <?}?> | Berita Selanjutnya >> <? $query = mysql_query("select * from content where grup='berita' and pub='true'  ORDER BY RAND() limit 1");	while($b=mysql_fetch_row($query)){?><a href="index.php?id=<? echo $b[0];?>&grup=berita&read=<? echo $b[1];?>"> <? echo $b[1];?> </a> <?}?> </p>
+																			
+</td>
+ </tr>
+ 
+ <?}}?>
+ <!-- AKHIR KONTEN DISINI -->
+ 
+ 
+ <? if ($_GET[grup]=="berita"){?> <!-- jika grup = berita then -->
+ <tr>
+ <td class="welcome tour" valign="top" align="left">
+														<h2>Berita Terkait</h2>
+																											</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left">
+ 
+ <? $query = mysql_query("select * from content where grup='berita' and pub='true'  ORDER BY id asc limit 10");	while($b=mysql_fetch_row($query)){?>
+ <table width="100%" align="left" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left"><p class="wel_text" ><font color="green"><span><? echo $b[1];?></span></font></p><img src="<? echo $b[6];?>" style="max-width: 300px;" alt="Tour01" title="Tour01" ></td>
+ </tr>
+ <tr>
+ <td class="tour_text" valign="top" align="left"><? $text=$b[2]; $potong=substr($text, 0, 280); echo $potong;?>........<a href="index.php?id=<? echo $b[0];?>&grup=berita&read=<? $judul=$b[1];$baru=strtolower($judul);echo str_replace(" ","-",$baru).".html";?>"> Selengkapnya..</a><br><br></td>
+ </tr>
+ </tbody></table>
+ <? }?>
+</td>
+ </tr>
+ <?}?>
+ 
+ 
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="249" align="left"><table width="227" align="left" border="0" cellpadding="0" cellspacing="0">
+ <tbody>
+
+ <tr>
+ <td valign="top" align="left" height="127"><a href="index.php?id=437&read=motivasi-sukses.html"><img src="image/special_tour.jpg" alt="special tour" title="special tour" width="227" border="0" height="117"></a></td>
+ </tr>
+ <tr>
+ <td class="clickhere" valign="top" align="left"><a href="index.php?id=163&read=petunjuk-pendaftaran-pspp-integrated.html" title="Click Here">Klik Disini</a></td>
+ </tr>
+ <tr>
+ <td valign="top" align="left" height="127"><img src="image/images/mau-jadi-pramugari.gif" width="100%"></td>
+ </tr>
+ 
+ 
+ 
+ 
+  <!--<tr>
+ <td valign="top" align="left" height="127"><br><a class="twitter-timeline"  href="https://twitter.com/PSPPPenerbangan"  data-widget-id="391102755206488064">Tweets by @PSPPPenerbangan</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</td>
+ </tr> -->
+ 
+ 
+ 
+ </tbody></table></td>
+ <td valign="top" width="322" align="left"><table width="322" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td class="welcome tour" valign="top" align="left">
+														<h2>Berita Terkini</h2>
+														<p class="wel_text"><span>Inilah berita terbaru kegiatan kampus PSPP Penerbangan</span>Silakan klik salah satu artikel dibawah ini untuk membaca berita selengkapnya.
+														
+														<?php
+/*
+getFeed("http://pspp-penerbangan.ac.id/feed");
+
+function getFeed($feed_url) {
+     
+    $content = file_get_contents($feed_url);
+    $x = new SimpleXmlElement($content);
+       
+    echo "<ul>";
+     
+    foreach($x->channel->item as $entry) {
+       echo "<li><a href='$entry->link' target='blank' title='$entry->title'>" . $entry->title . "</a><br>Date : ".$entry->pubDate."<br>". $entry->description . "... <br><br></li>";
+   }
+   echo "</ul>";
+}
+*/
+?>
+
+</p>														</td>
+ </tr>
+ 
+ <!-- berita terkini awal -->
+ <tr>
+ <td valign="top" align="left">
+ 
+ <? $query = mysql_query("select * from content where grup='berita' and pub='true'  ORDER BY id desc limit 10");	while($b=mysql_fetch_row($query)){?>
+ <table width="147" align="left" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left" style="padding:10px;"><p class="wel_text" ><font color="green"><a href="index.php?id=<? echo $b[0];?>&grup=berita&read=<? $judul=$b[1];$baru=strtolower($judul);echo str_replace(" ","-",$baru).".html";?>"><span><? echo $b[1];?></span></a></font></p></td>
+ </tr>
+ <tr>
+ <td class="tour_text" valign="top" align="left" style="padding:10px;"><? $text=$b[2]; $potong=substr($text, 0, 280); echo $potong;?>........<a href="index.php?id=<? echo $b[0];?>&grup=berita&read=<? $judul=$b[1];$baru=strtolower($judul);echo str_replace(" ","-",$baru).".html";?>"> Selengkapnya..</a><br><br></td>
+ </tr>
+ </tbody></table>
+ <? }?>
+</td>
+ </tr>
+ <!-- akhir berita terkini pertama -->
+ 
+
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ <td valign="top" width="267" align="left"><table width="267" border="0" cellpadding="0" cellspacing="0">
+ <tbody>
+ 
+ <? if ($_SESSION[status_login]=="aktif"){?>
+				 <tr>
+				 <td valign="top" align="left"><table width="267" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td class="packeg_top" valign="top" align="left">Menu Pendaftaran</td>
+				 </tr>
+				 <tr>
+				 <td class="packeg" valign="top" align="left"><form name="f1" action="" method="post" enctype="multipart/form-data"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" align="left" height="23"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" width="100%" align="left">
+				<label class="packeg_text">
+				  <a href="index.php?id=163&read=informasi-pendaftaran.html" style="color:green;">1. Informasi Pendaftaran</a><br>
+				  <a href="index.php?id=114&read=syarat-masuk.html" style="color:green;">2. Syarat Masuk</a><br>
+				  <a href="index.php?id=92&read=biaya-pendidikan.html" style="color:green;">3. Biaya Pendidikan</a><br>
+				  <a href="index.php?&r=biodata&id=<? echo $_SESSION[idpendaftaran];?>&read=biodata-pendaftaran-online.html" style="color:green;">4. Biodata Diri</a><br>
+				  <a href="#" style="color:green;" onclick="javascript:void window.open('tanda_bukti_pendaftaran.php','1386361733215','width=440px,height=440px,toolbar=0,menubar=1,location=0,status=0,scrollbars=0,resizable=0,left=0,top=0');return false;"">5. Tanda Bukti Pendaftaran</a><br>
+				  <a href="#" style="color:green;" onclick="<? $query = mysql_query("SELECT * FROM siswa WHERE id='$_GET[id]'");	while($b = mysql_fetch_array($query)){ if($b['tes_online'] == "sudah") { echo "javascript:void window.open('system/system/formulir_psb.php?id=$_SESSION[idpendaftaran]','1386361733215','width=840px,height=840px,toolbar=0,menubar=1,location=0,status=0,scrollbars=1,resizable=0,left=0,top=0');return false;"; } else { echo "alert('Maaf, Cetak Formulir Hanya Dapat Dilakukan Setelah Pendaftar Mengikuti Tes Online');"; }} ?>""> 6. Cetak Formulir Pendaftaran</a><br>
+				  <a href="index.php?&r=tes-online&read=tes-online.html" style="color:red;">7. Tes Online</a><br>
+				  <a href="index.php?&r=surat_pengumuman&id=<? echo $_SESSION[idpendaftaran];?>&read=surat-hasil-tes-seleksi.html" style="color:red;">8. Surat Hasil Tes Seleksi</a><br>
+				  <a href="index.php?&r=data-pendaftar&read=data-pendaftaran-online.html" style="color:green;">9. Data Calon Siswa-i PSPP</a><br>
+				  <a href="index.php?&id=436&read=pengumuman.html" style="color:green;">10. Pengumuman</a><br>
+				  <a href="index.php?id=435&read=konfirmasi-pembayaran.html" style="color:green;">11. Konfirmasi Pembayaran</a><br>
+				  <a href="index.php?r=pengaduan&read=pengaduan-layanan.html" style="color:red;">12. Layanan Pengaduan</a><br>
+				  <a href="index.php?&r=kritiksaran&read=sampaikan_kritik_dan_saran_anda.html" style="color:green;">13. Kritik dan Saran</a><br><br>
+
+				  <a href="logout.php" style="color:green;">Logout</a></label>														</td>
+				 <td valign="top" align="left"></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+
+
+				  
+				 <tr>
+				 <td valign="top" align="left" height="26"><label class="packeg_text_top">
+				 </tr>
+
+
+				 </tbody></table>
+				 </form></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+				 
+ 
+ <? }else{?>
+ 
+ 				 <tr>
+				 <td valign="top" align="left"><table width="267" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td class="packeg_top" valign="top" align="left">Login Disini!</td>
+				 </tr>
+				 <tr>
+				 <td class="packeg" valign="top" align="left"><form name="f1" action="" method="post" enctype="multipart/form-data"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" align="left" height="23"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" width="100%" align="left">
+																		<label class="packeg_text">Silakan masukan username dan password anda untuk mengikuti tes online dan melihat hasil tes seleksi.</label>														</td>
+				 <td valign="top" align="left"></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+				 <tr>
+				 <td valign="top" align="left" height="23"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" width="89" align="left"><label class="packeg_text">Username :</label> </td>
+				 <td valign="top" align="left"><input class="text_big" type="text" id="username" name="username" onChange=normal()></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+				 <tr>
+				 <td valign="top" align="left" height="23"><table width="219" border="0" cellpadding="0" cellspacing="0">
+				 <tbody><tr>
+				 <td valign="top" width="89" align="left"><label class="packeg_text">Password :</label> </td>
+				 <td valign="top" align="left"><input class="text_big" type="text" id="pass" name="pass" onChange=normal()></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+				  
+				 <tr>
+				 <td valign="top" align="left" height="26"><label class="packeg_text_top">
+				 </tr>
+				 <tr>
+				 <td valign="top" align="left" height="88"><textarea cols="" disabled="disabled" placeholder="Catatan : Username & Password diperoleh setelah anda mengisi biodata pendaftaran." rows=""></textarea><br><div id="tables"></div></td>
+				 </tr>
+
+				 <tr>
+				 <td valign="top" align="right" height="19"><br><input title="Submit" type="button" value="Login" onClick='CekLogin()'></td>
+				 </tr>
+				 </tbody></table>
+				 </form></td>
+				 </tr>
+				 </tbody></table></td>
+				 </tr>
+				 
+
+ 
+ 
+ <?}?>
+
+ 
+ <?if($_SESSION[bebas]=="yes"){?>
+  <tr>
+ <td >
+ <br><br><a href="index.php?id=111111&read=formulir-pendaftaran-online.html"><img src="image/formulir-pendaftaran-online-sekolah-pramugari.gif" width="100%"></a><br>Sumber link : <? echo $_SESSION[info-from];?>
+ </td>
+ </tr>
+ <?}?>
+ 
+
+ 
+    <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>INFO PENTING</h2>
+										<p class="news_text">Pembayaran Biaya Pendidikan</p>										</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+											<p >Segala bentuk pembayaran hanya dilayani melalui rekening resmi PSPP : <strong>Bank BRI 0098-01-002137-30-3 an PSPP Penerbangan</strong>. Pembayaran selain melalui rekening tersebut dianggap tidak sah atau belum membayar. PSPP tidak bertanggungjawab apabila anda melakukan pembayaran diluar ketentuan tersebut.</p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+ 
+ 
+  <tr>
+ <td valign="top" align="left" height="37">&nbsp;</td>
+ </tr>
+
+ 
+ 
+     <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>PANDUAN TAHAP PEMBAYARAN</h2>
+										<p class="news_text">Tata Cara Pembayaran</p>										</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+											<p >Pembayaran biaya pendidikan dianggap SAH hanya apabila melalui transfer via Bank BRI 0098-0100-2137-30-3 an PSPP Penerbangan.<br>Setiap nominal pembayaran selalu diikuti 4 digit nomor surat hasil seleksi.<br>
+<i>Contoh : </i> Siswa dengan nomor surat 1234/SK/PSPP-PSB/X/16 melakukan pembayaran 10 juta rupiah, maka siswa tersebut melakukan transfer sebesar Rp. 10.001.234 <i>(Sepuluh juta seribu dua ratus tiga puluh empat rupiah)</i></p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+
+ 
+ 
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>BERKAS PNDDKN</h2>
+										<p class="news_text">Persyaratan Berkas Pendidikan PSPP Penebangan</p>
+																				</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+											<p >Baca petunjuk lengkap persyaratan berkas pendidikan PSPP Penerbangan <a href=" http://pspp-integrated.com/index.php?id=466&grup=berita&read=persyaratan-berkas-pendidikan.html">klik disini</a></p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+   <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>KELAS 2017</h2>
+										<p class="news_text">Info Tentang Tanggal Pelaksanaan dan Data Peserta Pendidikan Kelas 2017</p>										</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+											<p >Halo calon peserta pendidikan tahun 2017. Kami ucapkan selamat datang kepada calon peserta pendidikan tahun 2017. <br>Beberapa info penting yang wajib anda ketahui :<br>1. Jadwal Pendidikan<br>
+											2. Biaya Pendidikan<br>
+											3. Jumlah Peserta<br>Selengkapnya silakan <a href="index.php?r=informasi_siswa_baru">klik disini.</a>
+											</p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>ALUMNI</h2>
+										<p class="news_text"><a href="http://pspp-integrated.com/alumni" target="_blank"><img src="http://pspp-penerbangan.ac.id/wp-content/uploads/2017/10/alumni-pspp.png" width="100%" /></a></p>
+																				</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+																					</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+ 
+   <tr>
+ <td valign="top" align="left" style="display:none;"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news"><br>INFO WISUDA 2017</h2>
+										<p class="news_text">Info Tentang Pelaksanaan, Waktu & Tempat</p>										</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="0" align="left"></td>
+ <td valign="top" align="left">
+											<p >Selamat dan sukses kepada Calon Wisudawan PSPP Penerbangan 2017. Semoga ilmu yang diperoleh dapat bermanfaat dan penuh berkah. <br><br>Sebentar lagi PSPP Penerbangan akan melaksanakan WISUDA 2017 khusus untuk peserta pendidikan kelas Juni & Oktober 2016. Bagi anda peserta pendidikan kelas Juni & Oktober 2016 kami himbau agar segera mendaftarkan diri sebagai calon wisudawan PSPP 2017. <br><br>Cara Pendaftaran, Syarat, Waktu, dan Lokasi Wisuda 2017 bisa diakses <a href="http://pspp-integrated.com/wisuda" target="_blank"> disini..></a>
+											</p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+ 
+ 
+  <tr>
+ <td valign="top" align="left" height="37">&nbsp;</td>
+ </tr>
+ 
+ 
+ 
+ 
+ 
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="left">
+										<h2 class="news">Anda Belum Mempunyai Username & Password?</h2>
+										<p class="news_text">Ikuti panduannya disini!</p>										</td>
+ </tr>
+ <tr>
+ <td valign="top" align="left"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" width="75" align="left"><img src="image/news_pic.gif" alt="" width="61" height="60"></td>
+ <td valign="top" align="left">
+												<p class="news_pictext">Untuk mendapatkan username dan password, langkah yang harus anda lakukan pertama kali adalah melakukan pendaftaran yaitu dengan mengisi formulir pendaftaran online di website resmi PSPP Penerbangan. Kemudian...</p>
+												<p class="more"><a href="index.php?id=163&read=petunjuk-pendaftaran-pspp-integrated.html" title="read more">Selengkapnya..</a><br><br></p>												</td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ 
+ 
+
+ 
+ 
+ 
+ <tr>
+ <td >
+ <br><br><img src="image/images/sekolah-pramugari-pspp.gif" width="100%">
+ </td>
+ </tr>
+
+  <tr style="background-color: #481e48;">
+ <td style="color:yellow;">
+ <br><h2 class="news" style="background-color: #481e48; color:yellow;"> &nbsp; UCAPAN SELAMAT</h2>
+ <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" align="center" style=" font-size:12px;"> 
+ &nbsp; &nbsp; Seluruh Staff dan Direksi <br>&nbsp; &nbsp;&nbsp;PSPP Penerbangan<br>&nbsp; &nbsp;&nbsp;mengucapkan selamat atas diterima kerja :<br><br>
+
+&nbsp; &nbsp; 1. Rida Aamalia bekerja di Air Asia<br>
+&nbsp; &nbsp; 2. Kurniati di AirFast<br>
+&nbsp; &nbsp; 3. Fajar Rahayu bekerja di Air Fast<br>
+&nbsp; &nbsp; 4. Nurul Anisah bekerja di Air Fast<br>
+&nbsp; &nbsp; 5. Navid Fauzan bekerja di AirFast<br>
+&nbsp; &nbsp; 6. Setri Wati Praditha bekerja di AirFast<br>
+
+</marquee>
+ </td>
+ </tr>
+ 
+ 
+  <tr>
+ <td >
+ <br><br>
+ <iframe  height="200" width="100%" src="http://www.youtube.com/embed/C9fhRx5o7jM?autoplay=0" frameborder="0" allowfullscreen></iframe>
+ </td>
+ </tr>
+ 
+
+
+ 
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+  <tr bgcolor="#E7EBFF"><td><img src="image/sekolah-pramugari.png" width="100%" bgcolor="#E7EBFF"></td></tr>
+ <tr>
+ <td class="footer" valign="top" align="center"><table width="815" border="0" cellpadding="0" cellspacing="0">
+ <tbody><tr>
+ <td valign="top" align="center" width="100%">
+				<ul><li><a href="index.php" color="white">Beranda</a> | <a href="index.php?id=91&read=jurusan-pendidikan-kampus-pspp-integrated.html">Jurusan Pendidikan</a> | <a href="index.php?id=92&read=biaya-pendidikan-kampus-pspp-integrated.html">Biaya Pendidikan</a> | <a href="index.php?id=163&read=petunjuk-pendaftaran-pspp-integrated.html">Informasi Pendaftaran</a> | <a href="index.php?id=113&read=hubungi-kami.html">Hubungi Kami</a></li></ul>
+			  </td>
+ </tr>
+ <tr>
+ <td valign="top" align="center">
+				<p>&#169; Copyright PSPP Integrated. All Rights Reserved. <? if ($_SESSION[info-from]==""){}else{?>Anda datang dari <a href="http://<? echo $_SESSION[info-from];?>" target="_blank"><? echo $_SESSION[info-from];?></a><?}?></p>
+			  </td>
+ </tr>
+ </tbody></table></td>
+ </tr>
+
+</tbody></table>
+
+<!-- Histats.com  START (hidden counter)-->
+<script type="text/javascript">document.write(unescape("%3Cscript src=%27http://s10.histats.com/js15.js%27 type=%27text/javascript%27%3E%3C/script%3E"));</script>
+<a href="http://www.histats.com" target="_blank" title="free web tracker" ><script  type="text/javascript" >
+try {Histats.start(1,3127223,4,0,0,0,"");
+Histats.track_hits();} catch(err){};
+</script></a>
+<noscript><a href="http://www.histats.com" target="_blank"><img  src="http://sstatic1.histats.com/0.gif?3127223&101" alt="free web tracker" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+
+
+<!--Protected by Encrypt HTML Pro, MTop, Software Inc.-->
+</body></html>
